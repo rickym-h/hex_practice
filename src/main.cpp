@@ -8,5 +8,7 @@ int main() {
     HexBoard board;
 
     board.printBoard();
+    board.placePiece(50, B);
+    board.printBoard();
     return 0;
 }

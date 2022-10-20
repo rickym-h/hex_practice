@@ -42,6 +42,7 @@ Hex HexBoard::intToHex(int i) {
 
 void HexBoard::printBoard() {
     int i = 0;
+    std::cout << "---------------------" << std::endl;
     for (Hex h : this->board) {
         std::cout << h << " ";
         if ((i+1)%11 == 0) {
@@ -49,4 +50,9 @@ void HexBoard::printBoard() {
         }
         i++;
     }
+    std::cout << "---------------------" << std::endl;
+}
+
+void HexBoard::placePiece(int index, Hex piece) {
+    board.at(index) = piece;
 }

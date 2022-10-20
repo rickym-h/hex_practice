@@ -27,6 +27,9 @@ public:
     std::vector<Hex> getBoard();
 
     void printBoard();
+
+    void placePiece(int index, Hex piece);
+    //void placePiece(int x, int y, Hex piece);
 };
 
 
