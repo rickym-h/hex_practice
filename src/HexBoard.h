@@ -29,7 +29,11 @@ public:
     void printBoard();
 
     void placePiece(int index, Hex piece);
-    //void placePiece(int x, int y, Hex piece);
+    void placePiece(int x, int y, Hex piece);
+
+    std::vector<int> getPossibleMoves();
+
+    float getStaticEvaluation();
 };
 
 

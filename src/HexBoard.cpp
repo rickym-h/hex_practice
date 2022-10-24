@@ -6,7 +6,6 @@
 
 // Constructor for a new board
 HexBoard::HexBoard() {
-    std::cout << "Initialising new HexBoard..." << std::endl;
     board = std::vector<Hex>(121, Hex::Empty);
 }
 
@@ -55,4 +54,24 @@ void HexBoard::printBoard() {
 
 void HexBoard::placePiece(int index, Hex piece) {
     board.at(index) = piece;
+}
+
+void HexBoard::placePiece(int row, int col, Hex piece) {
+    board.at((11 * row) + col) = piece;
+}
+
+std::vector<int> HexBoard::getPossibleMoves() {
+    std::vector<int> possibleMoves;
+    for (int i = 0; i < 121; i++) {
+        if (board[i] == 0) {
+            possibleMoves.push_back(i);
+        }
+    }
+    return possibleMoves;
+}
+
+// Takes the board layout and generates a static evaluation of the board with larger is better for A and lower
+// is better for B
+float HexBoard::getStaticEvaluation() {
+    return 0;
 }
