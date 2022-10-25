@@ -18,11 +18,12 @@ private:
     std::vector<int> nodes;
     std::vector<std::vector<bool>> adjacencyMatrix;
 
-    //generateGraphRepresentation(HexBoard board);
+    int GetEvaluationForPlayer(HexBoard board, char player);
 public:
     StaticEvaluator();
 
     int getEvaluation(HexBoard board);
+
 };
 
 
