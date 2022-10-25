@@ -1,14 +1,21 @@
 #include <iostream>
 #include "HexBoard.h"
+#include "StaticEvaluator.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    std::cout << "Test" << std::endl;
+    StaticEvaluator staticEvaluator;
 
     HexBoard board;
+    board.placePiece(0, 'A');
+    board.placePiece(1, 'A');
+    board.placePiece(2, 'A');
+    board.placePiece(10, 'B');
+    board.placePiece(9, 'B');
+    board.placePiece(20, 'B');
+    board.placePiece(21, 'B');
+    board.printBoard();
 
-    board.printBoard();
-    board.placePiece(50, B);
-    board.printBoard();
+    std::cout << staticEvaluator.getEvaluation(board) << std::endl;
+
     return 0;
 }

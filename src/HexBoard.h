@@ -8,32 +8,29 @@
 #include <vector>
 #include <iostream>
 
-enum Hex {
-    Empty = 0,
-    A = 1,
-    B = -1,
-};
-
 
 class HexBoard {
 private:
-    std::vector<Hex> board;
+    // Variables
+    std::vector<char> board;
 
-    static Hex intToHex(int);
+    //Functions
 public:
-    HexBoard();
-    explicit HexBoard(std::vector<int>);
+    // Variables
 
-    std::vector<Hex> getBoard();
+
+    // Functions
+    HexBoard();
+    explicit HexBoard(const std::vector<char>&);
+
+    std::vector<char> getBoard();
 
     void printBoard();
 
-    void placePiece(int index, Hex piece);
-    void placePiece(int x, int y, Hex piece);
+    void placePiece(int index, char piece);
+    void placePiece(int x, int y, char piece);
 
     std::vector<int> getPossibleMoves();
-
-    float getStaticEvaluation();
 };
 
 

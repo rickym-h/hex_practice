@@ -6,43 +6,25 @@
 
 // Constructor for a new board
 HexBoard::HexBoard() {
-    board = std::vector<Hex>(121, Hex::Empty);
+    board = std::vector<char>(121, '.');
 }
 
-HexBoard::HexBoard(std::vector<int> boardVector) {
+HexBoard::HexBoard(const std::vector<char>& boardVector) {
     if (boardVector.size() != 121) {
         throw std::length_error("Board Vector must be 121 long.");
     }
 
-    board = std::vector<Hex>(121, Hex::Empty);
-
-    std::transform(boardVector.begin(), boardVector.end(),
-                   board.begin(),
-                   intToHex);
-
+    board = std::vector<char>(boardVector);
 }
 
-std::vector<Hex> HexBoard::getBoard() {
+std::vector<char> HexBoard::getBoard() {
     return this->board;
-}
-
-Hex HexBoard::intToHex(int i) {
-    switch (i) {
-        case 1:
-            return Hex::A;
-        case 0:
-            return Hex::Empty;
-        case -1:
-            return Hex::B;
-        default:
-            throw std::invalid_argument("int should be -1, 0, or 1");
-    }
 }
 
 void HexBoard::printBoard() {
     int i = 0;
     std::cout << "---------------------" << std::endl;
-    for (Hex h : this->board) {
+    for (char h : this->board) {
         std::cout << h << " ";
         if ((i+1)%11 == 0) {
             std::cout << std::endl;
@@ -52,11 +34,11 @@ void HexBoard::printBoard() {
     std::cout << "---------------------" << std::endl;
 }
 
-void HexBoard::placePiece(int index, Hex piece) {
+void HexBoard::placePiece(int index, char piece) {
     board.at(index) = piece;
 }
 
-void HexBoard::placePiece(int row, int col, Hex piece) {
+void HexBoard::placePiece(int row, int col, char piece) {
     board.at((11 * row) + col) = piece;
 }
 
@@ -68,10 +50,4 @@ std::vector<int> HexBoard::getPossibleMoves() {
         }
     }
     return possibleMoves;
-}
-
-// Takes the board layout and generates a static evaluation of the board with larger is better for A and lower
-// is better for B
-float HexBoard::getStaticEvaluation() {
-    return 0;
 }
