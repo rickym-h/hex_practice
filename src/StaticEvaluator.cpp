@@ -116,71 +116,23 @@ int StaticEvaluator::getEvaluation(HexBoard board) {
     return ACount - BCount;
 }
 
+
+
 int StaticEvaluator::GetEvaluationForPlayer(HexBoard board, char player) {
-    char opposingPlayer;
     int startNode;
     int endNode;
     std::vector<int> ignoreNodes;
     if (player == 'A') {
-        opposingPlayer = 'B';
         startNode = 121;
         endNode = 122;
-        ignoreNodes = {123, 124};
     } else {
-        opposingPlayer = 'A';
         startNode = 123;
         endNode = 124;
-        ignoreNodes = {121, 122};
     }
 
-    // Take a hardcoded representation of an empty board.
-    std::vector<int> localNodes(nodes);
-    std::vector<std::vector<bool>> localAdjacencyMatrix(adjacencyMatrix);
-
-    // First get rid of opposing player piece connections
-    for (int i = 0; i < 121; i++) {
-        if (board.getBoard()[i] == opposingPlayer) {
-            // Get rid of all connections to this piece
-            for (int j = 0; j < localAdjacencyMatrix[i].size(); j++) {
-                if (localAdjacencyMatrix[i][j]) {
-                    localAdjacencyMatrix[j][i] = false;
-                }
-            }
-            // Get rid of all connections out of this piece
-            localAdjacencyMatrix[i] = std::vector<bool> (125, false);
-        }
-    }
-
-
-
-
-    // Connect up player piece nodes
-    for (int i = 0; i < 121; i++) {
-        if (board.getBoard()[i] == player) {
-            // Get list of all nodes the piece connects to
-            std::vector<int> connections = {};
-            for (int j = 0; j < 125; j++) {
-                if (!localAdjacencyMatrix[i][j]) { continue; }
-                connections.push_back(j);
-            }
-
-            // Connect each of those connections with each other
-            for (int connectionStart : connections) {
-                for (int connectionEnd : connections) {
-                    localAdjacencyMatrix[connectionStart][connectionEnd] = true;
-                }
-            }
-
-            // Remove connections from all of those pieces to i
-            for (int connection : connections) {
-                localAdjacencyMatrix[connection][i] = false;
-            }
-
-            // Set all of i's connections to false
-            localAdjacencyMatrix[i] = std::vector<bool> (125, false);
-        }
-    }
-
+    Graph g = generateGraphRepresentation(board, player);
+    std::vector<int> localNodes = g.nodes;
+    std::vector<std::vector<bool>> localAdjacencyMatrix = g.adjacencyMatrix;
 
 
     // Do a BFS to find the shortest path between goal states
@@ -226,4 +178,70 @@ int StaticEvaluator::GetEvaluationForPlayer(HexBoard board, char player) {
 
     // Return -1 if connection not possible
     return -1;
+}
+
+int StaticEvaluator::isGameOver(HexBoard board) {
+    return 0;
+}
+
+Graph StaticEvaluator::generateGraphRepresentation(HexBoard board, char player) {
+    char opposingPlayer;
+    std::vector<int> ignoreNodes;
+    if (player == 'A') {
+        opposingPlayer = 'B';
+        ignoreNodes = {123, 124};
+    } else {
+        opposingPlayer = 'A';
+        ignoreNodes = {121, 122};
+    }
+
+    // Take a hardcoded representation of an empty board.
+    std::vector<int> localNodes(nodes);
+    std::vector<std::vector<bool>> localAdjacencyMatrix(adjacencyMatrix);
+
+    // First get rid of opposing player piece connections
+    for (int i = 0; i < 121; i++) {
+        if (board.getBoard()[i] == opposingPlayer) {
+            // Get rid of all connections to this piece
+            for (int j = 0; j < localAdjacencyMatrix[i].size(); j++) {
+                if (localAdjacencyMatrix[i][j]) {
+                    localAdjacencyMatrix[j][i] = false;
+                }
+            }
+            // Get rid of all connections out of this piece
+            localAdjacencyMatrix[i] = std::vector<bool> (125, false);
+        }
+    }
+
+    // Connect up player piece nodes
+    for (int i = 0; i < 121; i++) {
+        if (board.getBoard()[i] == player) {
+            // Get list of all nodes the piece connects to
+            std::vector<int> connections = {};
+            for (int j = 0; j < 125; j++) {
+                if (!localAdjacencyMatrix[i][j]) { continue; }
+                connections.push_back(j);
+            }
+
+            // Connect each of those connections with each other
+            for (int connectionStart : connections) {
+                for (int connectionEnd : connections) {
+                    localAdjacencyMatrix[connectionStart][connectionEnd] = true;
+                }
+            }
+
+            // Remove connections from all of those pieces to i
+            for (int connection : connections) {
+                localAdjacencyMatrix[connection][i] = false;
+            }
+
+            // Set all of i's connections to false
+            localAdjacencyMatrix[i] = std::vector<bool> (125, false);
+        }
+    }
+
+    Graph g;
+    g.nodes = localNodes;
+    g.adjacencyMatrix = localAdjacencyMatrix;
+    return g;
 }
