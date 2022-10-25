@@ -1,15 +1,15 @@
 #include <iostream>
 #include "HexBoard.h"
 #include "StaticEvaluator.h"
+#include "MiniMax.h"
 
 int main() {
-    StaticEvaluator staticEvaluator;
-
     HexBoard board;
 
-    int eval = staticEvaluator.getEvaluation(board);
-    std::cout << eval << std::endl;
+    MiniMax minimax;
+    int move = minimax.getMoveFromBoardPos(board);
 
+    std::cout << move << std::endl;
 
     return 0;
 }
