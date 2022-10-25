@@ -15,6 +15,9 @@ private:
     // IF WE DO THIS MAKE IT CYCLIC AS OLD EVALUATIONS WON'T BE USEFUL LATER
     std::map<std::vector<char>, int> evaluationMap;
 
+    std::vector<int> nodes;
+    std::vector<std::vector<bool>> adjacencyMatrix;
+
     //generateGraphRepresentation(HexBoard board);
 public:
     StaticEvaluator();

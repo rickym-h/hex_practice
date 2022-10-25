@@ -13,9 +13,8 @@ int main() {
     board.placePiece(9, 'B');
     board.placePiece(20, 'B');
     board.placePiece(21, 'B');
-    board.printBoard();
+    //board.printBoard();
 
-    std::cout << staticEvaluator.getEvaluation(board) << std::endl;
 
     return 0;
 }

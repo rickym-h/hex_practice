@@ -3,4 +3,4 @@ project(hex_practice)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(hex_practice src/main.cpp src/HexBoard.cpp src/HexBoard.h src/StaticEvaluator.cpp src/StaticEvaluator.h)
+add_executable(hex_practice src/main.cpp src/HexBoard.cpp src/HexBoard.h src/StaticEvaluator.cpp src/StaticEvaluator.h src/MiniMax.cpp src/MiniMax.h)
